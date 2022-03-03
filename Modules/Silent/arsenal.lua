@@ -1,8 +1,6 @@
 local game =  game
 local GetService = game.GetService
 
-while workspace.CurrentCamera == nil do wait() end
-
 local Players = GetService(game, "Players")
 local LocalPlayer = Players.LocalPlayer
 local RunService = GetService(game, "RunService")
