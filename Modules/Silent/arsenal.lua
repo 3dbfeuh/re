@@ -8,20 +8,20 @@ local BodyPart = nil
 local Settings = {
     ["Enabled"] = false,
     ["TeamCheck"] = false,
-    ["BodyPartToAim"] = "head"
+    ["BodyPartToAim"] = "Head"
 }
 local Camera = workspace.CurrentCamera
 local Mouse = LocalPlayer.GetMouse(LocalPlayer)
 
 local GetPartToAim = function()
     local result = "Head"
-    if Settings.BodyPartToAim == "head" then
+    if Settings.BodyPartToAim == "Head" then
         result = "Head"
     end
-    if Settings.BodyPartToAim == "torso" then
+    if Settings.BodyPartToAim == "Torso" then
         result = "UpperTorso"
     end
-    if Settings.BodyPartToAim == "random" then
+    if Settings.BodyPartToAim == "Random" then
         local parts = {"Head", "UpperTorso"}
         result = parts[math.random(1, #parts)]
     end
@@ -65,13 +65,29 @@ end
 local GetClosestBodyPartFromCursor = function()
     local ClosestDistance = math.huge
     for i, v in next, Players.GetPlayers(Players) do
-        if v ~= LocalPlayer and (Settings.TeamCheck and v.Team ~= LocalPlayer.Team) and v.Character and FindFirstChild(v.Character, "Humanoid") then
-            for k, x in next, GetChildren(v.Character) do
-                if Filter(x) and lower(tostring(x.Name)) == GetPartToAim() and IsOnScreen(x) then
-                    local Distance = (WTS(x) - MousePositionToVector2()).Magnitude
-                    if Distance < ClosestDistance then
-                        ClosestDistance = Distance
-                        BodyPart = x
+        if v ~= LocalPlayer then
+            if Settings.TeamCheck == true then
+                if v.Team ~= LocalPlayer.Team and v.Character and FindFirstChild(v.Character, "Humanoid") then
+                    for k, x in next, GetChildren(v.Character) do
+                        if Filter(x) and lower(tostring(x.Name)) == GetPartToAim() and IsOnScreen(x) then
+                            local Distance = (WTS(x) - MousePositionToVector2()).Magnitude
+                            if Distance < ClosestDistance then
+                                ClosestDistance = Distance
+                                BodyPart = x
+                            end
+                        end
+                    end
+                end
+            else
+                if v.Character and FindFirstChild(v.Character, "Humanoid") then
+                    for k, x in next, GetChildren(v.Character) do
+                        if Filter(x) and lower(tostring(x.Name)) == GetPartToAim() and IsOnScreen(x) then
+                            local Distance = (WTS(x) - MousePositionToVector2()).Magnitude
+                            if Distance < ClosestDistance then
+                                ClosestDistance = Distance
+                                BodyPart = x
+                            end
+                        end
                     end
                 end
             end
@@ -83,7 +99,8 @@ local OldNameCall
 OldNameCall = hookmetamethod(game, "__namecall", function(Self, ...)
     local Method = getnamecallmethod()
     local Args = {...}
-    if Settings.Enabled and Method == "FindPartOnRayWithIgnoreList" and BodyPart ~= nil then
+    if Settings.Enabled == false then return OldNameCall(Self, ...) end
+    if Method == "FindPartOnRayWithIgnoreList" and BodyPart ~= nil then
         Args[1] = PositionToRay(Camera.CFrame.Position, BodyPart.Position)
         return OldNameCall(Self, unpack(Args))
     end
