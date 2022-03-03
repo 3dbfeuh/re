@@ -1,4 +1,3 @@
-while not game:IsLoaded() do game.Loaded:Wait() end
 while workspace.CurrentCamera == nil do wait() end
 
 local LoadUrl = function(str)
