@@ -69,7 +69,7 @@ local GetClosestBodyPartFromCursor = function()
             if Settings.TeamCheck == true then
                 if v.Team ~= LocalPlayer.Team and v.Character and FindFirstChild(v.Character, "Humanoid") then
                     for k, x in next, GetChildren(v.Character) do
-                        if Filter(x) and lower(tostring(x.Name)) == GetPartToAim() and IsOnScreen(x) then
+                        if Filter(x) and tostring(x.Name) == GetPartToAim() and IsOnScreen(x) then
                             local Distance = (WTS(x) - MousePositionToVector2()).Magnitude
                             if Distance < ClosestDistance then
                                 ClosestDistance = Distance
