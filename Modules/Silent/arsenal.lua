@@ -1,11 +1,14 @@
 local game =  game
 local GetService = game.GetService
 
+while workspace.CurrentCamera == nil do wait() end
+
 local Players = GetService(game, "Players")
 local LocalPlayer = Players.LocalPlayer
 local RunService = GetService(game, "RunService")
 local BodyPart = nil
 local Settings = {
+    ["Enabled"] = false,
     ["TeamCheck"] = false,
     ["BodyPartToAim"] = "torso"
 }
@@ -82,7 +85,7 @@ local OldNameCall
 OldNameCall = hookmetamethod(game, "__namecall", function(Self, ...)
     local Method = getnamecallmethod()
     local Args = {...}
-    if Method == "FindPartOnRayWithIgnoreList" and BodyPart ~= nil then
+    if Settings.Enabled and Method == "FindPartOnRayWithIgnoreList" and BodyPart ~= nil then
         Args[1] = PositionToRay(Camera.CFrame.Position, BodyPart.Position)
         return OldNameCall(Self, unpack(Args))
     end
