@@ -8,13 +8,13 @@ local BodyPart = nil
 local Settings = {
     ["Enabled"] = false,
     ["TeamCheck"] = false,
-    ["BodyPartToAim"] = "torso"
+    ["BodyPartToAim"] = "head"
 }
 local Camera = workspace.CurrentCamera
 local Mouse = LocalPlayer.GetMouse(LocalPlayer)
 
 local GetPartToAim = function()
-    local result = "UpperTorso"
+    local result = "Head"
     if Settings.BodyPartToAim == "head" then
         result = "Head"
     end
