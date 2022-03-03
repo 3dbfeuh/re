@@ -1,8 +1,13 @@
 local ClientFolder = "Recursion"
-local FolderPath = ClientFolder .. "/"
+local ConfigFolder = ClientFolder .. "/Profiles"
+local FolderPath = ConfigFolder .. "/"
 
 if not isfolder(ClientFolder) then
     makefolder(ClientFolder)
+end
+
+if not isfolder(ConfigFolder) then
+    makefolder(ConfigFolder)
 end
 
 local ParentGui = function(Gui)
