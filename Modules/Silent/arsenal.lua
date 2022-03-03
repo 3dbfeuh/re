@@ -28,12 +28,13 @@ local GetPartToAim = function()
     return result
 end
 
-local IsA, FindFirstChild, find, lower, GetChildren =
+local IsA, FindFirstChild, find, lower, GetChildren, FindFirstChildOfClass =
     game.IsA,
     game.FindFirstChild,
     string.find,
     string.lower,
-    game.GetChildren
+    game.GetChildren,
+    game.FindFirstChildOfClass
 
 local WTS = function(Object)
     local ObjectVector = Camera.WorldToScreenPoint(Camera, Object.Position)
@@ -67,7 +68,7 @@ local GetClosestBodyPartFromCursor = function()
     for i, v in next, Players.GetPlayers(Players) do
         if v ~= LocalPlayer then
             if Settings.TeamCheck == true then
-                if v.Team ~= LocalPlayer.Team and v.Character and FindFirstChild(v.Character, "Humanoid") then
+                if v.Team ~= LocalPlayer.Team and v.Character and FindFirstChildOfClass(v.Character, "Humanoid") then
                     for k, x in next, GetChildren(v.Character) do
                         if Filter(x) and tostring(x.Name) == GetPartToAim() and IsOnScreen(x) then
                             local Distance = (WTS(x) - MousePositionToVector2()).Magnitude
@@ -79,7 +80,7 @@ local GetClosestBodyPartFromCursor = function()
                     end
                 end
             else
-                if v.Character and FindFirstChild(v.Character, "Humanoid") then
+                if v.Character and FindFirstChildOfClass(v.Character, "Humanoid") then
                     for k, x in next, GetChildren(v.Character) do
                         if Filter(x) and tostring(x.Name) == GetPartToAim() and IsOnScreen(x) then
                             local Distance = (WTS(x) - MousePositionToVector2()).Magnitude
